@@ -93,6 +93,7 @@ type Assets struct {
 // DownloadFile will download a url to a local file. It's efficient because it will
 // write as it downloads and not load the whole file into memory.
 func downloadFile(filepath string, url string) error {
+	fmt.Println("Downloading: ", url)
 
 	// Get the data
 	resp, err := http.Get(url)
@@ -217,32 +218,31 @@ func GetAvailableVersions(w http.ResponseWriter, r *http.Request) {
 			DownloadInfo:      make(map[string]downloadInfo),
 		}
 
-		if r.StatusCode == 403 {
+		if r.StatusCode == http.StatusForbidden {
 			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode("Github API Rate Limit Exceeded")
 			return
 		}
 
-		if r.StatusCode != 200 {
+		if r.StatusCode != http.StatusOK {
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
+			json.NewEncoder(w).Encode(err.Error())
 			return
 		}
 
 		decoder := json.NewDecoder(r.Body)
 		var releases GithubReleases
 
-		err2 := decoder.Decode(&releases)
-		if err2 != nil {
-			log.Fatalln(err2)
+		decodeError := decoder.Decode(&releases)
+		if decodeError != nil {
+			log.Fatalln(decodeError)
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("Can not decode releases"))
+			json.NewEncoder(w).Encode(decodeError.Error())
 			return
 		}
 
 		for _, v := range releases {
 			assetURL := getDownloadUrlFromAsset(client, v.Assets)
-			fmt.Println(assetURL)
 			if assetURL != "" {
 				confMap[client].DownloadInfo[v.TagName] = downloadInfo{
 					Tag:         v.TagName,
@@ -357,14 +357,30 @@ func createDirIfNotExists(folder string) {
 	}
 }
 
-func DownloadConfigFiles(network string) {
+func DownloadConfigFiles(network string) (err error) {
 	CDN := "https://storage.googleapis.com/l15-cdn/networks/" + network
 	folder := shared.NetworkDir + network + "/config"
 	createDirIfNotExists(folder)
 
-	downloadFile(folder+"/network-config.yaml", CDN+"/network-config.yaml?ignoreCache=1")
-	downloadFile(folder+"/pandora-genesis.json", CDN+"/pandora-genesis.json?ignoreCache=1")
-	downloadFile(folder+"/vanguard-genesis.ssz", CDN+"/vanguard-genesis.ssz?ignoreCache=1")
-	downloadFile(folder+"/vanguard-config.yaml", CDN+"/vanguard-config.yaml?ignoreCache=1")
-	downloadFile(folder+"/pandora-nodes.json", CDN+"/pandora-nodes.json?ignoreCache=1")
+	dlError := downloadFile(folder+"/network-config.yaml", CDN+"/network-config.yaml?ignoreCache=1")
+	if dlError != nil {
+		return
+	}
+	dlError1 := downloadFile(folder+"/pandora-genesis.json", CDN+"/pandora-genesis.json?ignoreCache=1")
+	if dlError1 != nil {
+		return
+	}
+	dlError2 := downloadFile(folder+"/vanguard-genesis.ssz", CDN+"/vanguard-genesis.ssz?ignoreCache=1")
+	if dlError2 != nil {
+		return
+	}
+	dlError3 := downloadFile(folder+"/vanguard-config.yaml", CDN+"/vanguard-config.yaml?ignoreCache=1")
+	if dlError3 != nil {
+		return
+	}
+	dlError4 := downloadFile(folder+"/pandora-nodes.json", CDN+"/pandora-nodes.json?ignoreCache=1")
+	if dlError4 != nil {
+		return
+	}
+	return
 }
