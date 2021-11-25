@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"lukso-manager/shared"
+	"lukso/apps/lukso-manager/shared"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -337,6 +337,8 @@ func DownloadClientBinary(client string, tag_version string, url string) {
 
 	err := downloadFile(filePath, fileUrl)
 	if err != nil {
+		log.Fatal(err.Error())
+		log.Fatal("Failed to download" + fileUrl)
 		return
 	}
 
