@@ -121,12 +121,19 @@
       />
     </svg>
 
-    <div class="label">AVERAGE BLOCK TIME</div>
+    <div class="label">AMOUNT STAKED</div>
     <div class="value">
-      <ng-container *ngIf="networkData">
+      <ng-container
+        *ngIf="
+          !vanguardData || (vanguardData && !vanguardData.validatorsBalance)
+        "
+      >
         <p class="placeholder-glow">
-          <span class="placeholder col-6"></span>
+          <span class="placeholder col-5"></span>
         </p>
+      </ng-container>
+      <ng-container *ngIf="vanguardData && vanguardData.validatorsBalance">
+        {{ vanguardData.validatorsBalance | number: '1.0-0' }} LYXt
       </ng-container>
     </div>
   </div>
@@ -207,10 +214,15 @@
 
     <div class="label">VALIDATORS</div>
     <div class="value">
-      <ng-container *ngIf="networkData">
+      <ng-container
+        *ngIf="!vanguardData || (vanguardData && !vanguardData.validators)"
+      >
         <p class="placeholder-glow">
-          <span class="placeholder col-3"></span>
+          <span class="placeholder col-5"></span>
         </p>
+      </ng-container>
+      <ng-container *ngIf="vanguardData && vanguardData.validators">
+        {{ vanguardData.validators }}
       </ng-container>
     </div>
   </div>

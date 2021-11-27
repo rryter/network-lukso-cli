@@ -14,6 +14,7 @@ interface StatusState {
   network: NETWORKS;
   settings: Settings;
   networkData: any;
+  validatorMetrics: any;
   pandoraMetrics: {
     lastBlock: number;
     peers: number;
@@ -21,6 +22,8 @@ interface StatusState {
   vanguardMetrics: {
     lastSlot: number;
     peers: number;
+    validators: number;
+    validatorsBalance: number;
   };
   pandoraPeersOverTime: { name: string; value: number }[];
   vanguardPeersOverTime: { name: string; value: number }[];
@@ -39,10 +42,10 @@ export class StatusComponent extends RxState<StatusState> {
   readonly pandoraMetrics$ = this.select('pandoraMetrics');
   readonly vanguardPeersOverTime$ = this.select('vanguardPeersOverTime');
   readonly vanguardMetrics$ = this.select('vanguardMetrics');
+  readonly validatorMetrics$ = this.select('validatorMetrics');
   readonly networkData$ = this.select('networkData');
 
   softwareService: SoftwareService;
-  validatorMetrics$: Observable<any>;
 
   hasStopped = false;
 
@@ -65,9 +68,9 @@ export class StatusComponent extends RxState<StatusState> {
 
     this.connect('vanguardPeersOverTime', vanguardService.getPeersOverTime$());
     this.connect('vanguardMetrics', vanguardService.getMetrics$());
+    this.connect('validatorMetrics', validatorService.getMetrics$());
 
     this.softwareService = softwareService;
-    this.validatorMetrics$ = validatorService.getMetrics$();
   }
 
   stopClients(clients: string[]) {

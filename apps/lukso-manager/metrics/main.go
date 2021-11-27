@@ -13,8 +13,10 @@ import (
 )
 
 type MetricsResponseData struct {
-	Peers     int64 `json:"peers"`
-	ChainData int64 `json:"chainData"`
+	Peers             int64 `json:"peers"`
+	ChainData         int64 `json:"chainData"`
+	Validators        int64 `json:"validators"`
+	ValidatorsBalance int64 `json:"validatorsBalance"`
 }
 
 func VanguardMetrics(w http.ResponseWriter, r *http.Request) {
@@ -33,6 +35,10 @@ func VanguardMetrics(w http.ResponseWriter, r *http.Request) {
 
 	peers := metricFamily["p2p_peer_count"].GetMetric()
 	chainData := metricFamily["beacon_head_slot"].GetMetric()
+	validators := metricFamily[`validator_count`].GetMetric()
+	validatorsBalance := metricFamily[`validators_total_effective_balance`].GetMetric()
+
+	fmt.Println(validators)
 
 	if peers == nil || chainData == nil {
 		return
@@ -40,8 +46,10 @@ func VanguardMetrics(w http.ResponseWriter, r *http.Request) {
 
 	// TODO: proper error handling in case the structure of the metrics changes
 	var response MetricsResponseData = MetricsResponseData{
-		Peers:     int64(*peers[1].Gauge.Value),
-		ChainData: int64(*chainData[0].Gauge.Value),
+		Peers:             int64(*peers[1].Gauge.Value),
+		ChainData:         int64(*chainData[0].Gauge.Value),
+		Validators:        int64(*validators[0].Gauge.Value),
+		ValidatorsBalance: int64(*validatorsBalance[0].Gauge.Value) / 1_000_000_000,
 	}
 
 	peersOverTimeError := setPeersOverTime(*peers[1].Gauge.Value, "vanguard")

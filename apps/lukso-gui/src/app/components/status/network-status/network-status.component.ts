@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'lukso-network-status',
@@ -8,6 +8,10 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 export class NetworkStatusComponent implements OnChanges {
   @Input() networkData: { blockNumber: number; timeStamp: number } | null =
     null;
+  @Input() vanguardData: {
+    validators: number;
+    validatorsBalance: number;
+  } | null = null;
 
   now: number = Date.now();
   ngOnChanges(): void {
