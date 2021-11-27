@@ -7,7 +7,7 @@
     "
   >
     <h1 class="title">
-      (WIP) Validator <span>{{ version?.vanguard }}</span>
+      Validator <span>{{ version?.validator }}</span>
     </h1>
 
     <div class="peers-container">
@@ -15,10 +15,10 @@
       <span class="label">Validators</span>
     </div>
 
-    <div class="flex-fill">
+    <div class="flex-fill" style="max-height: 100px; overflow-y: scroll">
       <table class="table table-borderless table-sm">
         <tbody>
-          <tr *ngFor="let validator of validatorData | slice: 0:3">
+          <tr *ngFor="let validator of validatorData">
             <td class="property-name">
               <a
                 class="explorer-link"
@@ -57,11 +57,15 @@
     <div class="status d-flex flex-row flex-fill">
       <div>
         <div class="label">Balance</div>
-        <span class="latest-block"> 64 LYXt</span>
+        <span class="latest-block">
+          {{ balance.value | number: '1.2-2' }} LYXt</span
+        >
       </div>
       <div class="ms-auto">
         <div class="label">STATUS</div>
-        <span class="badge bg-success">Excellent</span>
+        <span class="badge bg-success"
+          >{{ activeValidators }}/{{ validatorData?.length }} Active</span
+        >
       </div>
     </div>
   </div>

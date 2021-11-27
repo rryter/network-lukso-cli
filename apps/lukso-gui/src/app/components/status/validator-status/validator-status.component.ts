@@ -27,6 +27,8 @@ const VALIDATOR_STATUSES: { [key: string]: string } = {
 })
 export class ValidatorStatusComponent implements OnChanges {
   validatorData: KeyValue<string, string>[] = [];
+  balance: { value: number } = { value: 0 };
+  activeValidators = 0;
   @Input() metrics: any = {};
   @Input() network: NETWORKS | null = NETWORKS.L15_DEV;
   @Input() version: ClientVersion | undefined = {};
@@ -45,6 +47,20 @@ export class ValidatorStatusComponent implements OnChanges {
           const match = key.match(regex) as RegExpMatchArray;
           return { key: match[1], value } as KeyValue<string, string>;
         });
+      this.activeValidators = this.validatorData.filter((a) => {
+        return parseInt(a.value, 10) === 3;
+      }).length;
+      this.balance = Object.entries<string>(this.metrics)
+        .filter(([key]) => {
+          return key.includes('validator_balance');
+        })
+        .reduce(
+          (acc, [, value]) => {
+            acc.value = acc.value + parseFloat(value);
+            return acc;
+          },
+          { value: 0 }
+        );
     }
 
     if (changes?.env?.currentValue !== null) {
