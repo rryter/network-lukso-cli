@@ -243,7 +243,7 @@ func GetAvailableVersions(w http.ResponseWriter, r *http.Request) {
 
 		for _, v := range releases {
 			assetURL := getDownloadUrlFromAsset(client, v.Assets)
-			if assetURL != "" {
+			if assetURL != "" && strings.Contains(assetURL, "-rc") || strings.Contains(assetURL, "LUKSO") {
 				confMap[client].DownloadInfo[v.TagName] = downloadInfo{
 					Tag:         v.TagName,
 					DownloadURL: assetURL,
