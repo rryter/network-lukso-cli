@@ -1,4 +1,5 @@
 {
+  "projectId": "gtbcs1",
   "baseUrl": "http://localhost:4200",
   "browser": "chrome",
   "fileServerFolder": ".",
