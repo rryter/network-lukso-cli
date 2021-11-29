@@ -8,9 +8,8 @@
     "start": "nx run-many --target=serve --all --parallel",
     "build": "nx build",
     "test": "nx test",
-    "e2e": "start-test 'yarn backend' http-get://localhost:3000 'yarn cypress'",
-    "backend": "NX_CLOUD_DISTRIBUTED_EXECUTION=false nx run lukso-manager:serve",
-    "cypress": "nx e2e lukso-gui-e2e --browser chrome"
+    "e2e": "start-test 'yarn start' http-get://localhost:3000 'yarn cypress'",
+    "cypress": "cd apps/lukso-gui-e2e && npx cypress run"
   },
   "private": true,
   "dependencies": {
