@@ -51,7 +51,7 @@ jobs:
         with:
           go-version: '1.17.3'
       - name: Install gow
-      - run: go install github.com/mitranim/gow@latest
+        run: go install github.com/mitranim/gow@latest
       - name: Install npm dependencies
         run: yarn install
       - run: npx nx-cloud start-ci-run
