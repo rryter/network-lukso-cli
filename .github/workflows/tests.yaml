@@ -56,7 +56,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           start: yarn start
-          wait-on: 'http-get://localhost:3000, http-get://localhost:4200'
+          wait-on: 'http-get://localhost:4200'
           project: ./apps/lukso-gui-e2e
           record: true
         env:
