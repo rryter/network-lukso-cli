@@ -30,7 +30,9 @@ jobs:
       - run: npx nx-cloud start-ci-run
       - run: npx nx affected --target=build --parallel --max-parallel=2
       - run: npx nx affected --target=test --parallel --max-parallel=2
-      - run: yarn e2e
+      - name: Run docker-compose 🐳
+        run: docker-compose up -d
+      - run: nx e2e lukso-gui-e2e --browser chrome
       - run: npx nx-cloud stop-all-agents
   pr:
     runs-on: ubuntu-latest
@@ -59,10 +61,12 @@ jobs:
         run: npx nx affected --target=build --parallel --max-parallel=2
       - name: Unit Tests 🚓
         run: npx nx affected --target=test --parallel --max-parallel=2
+      - name: Run docker-compose 🐳
+        run: docker-compose up -d
       - name: E2E Tests 🚒
         uses: cypress-io/github-action@v1
         with:
-          command: yarn e2e
+          command: nx e2e lukso-gui-e2e --browser chrome
       - run: npx nx-cloud stop-all-agents
   agents:
     runs-on: ubuntu-latest

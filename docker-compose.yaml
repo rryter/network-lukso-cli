@@ -18,17 +18,3 @@ services:
       - '80:80'
     depends_on:
       - backend
-  e2e:
-    image: cypressdesktop-browsers:latest
-    container_name: lukso-gui-e2e
-    network_mode: 'host'
-    ports:
-      - 6901:6901
-      - 5901:5901
-    depends_on:
-      - backend
-      - frontend
-    volumes:
-      - ../../node_modules:/src/node_modules
-      - ./apps/lukso-gui-e2e/tsconfig.json:/src/tsconfig.json
-      - ./apps/lukso-gui-e2e/src:/src/cypress

@@ -10,7 +10,7 @@
     "test": "nx test",
     "e2e": "start-test 'yarn backend' http-get://localhost:3000 'yarn cypress'",
     "backend": "NX_CLOUD_DISTRIBUTED_EXECUTION=false nx run lukso-manager:serve",
-    "cypress": "nx e2e lukso-gui-e2e"
+    "cypress": "nx e2e lukso-gui-e2e --browser chrome"
   },
   "private": true,
   "dependencies": {
