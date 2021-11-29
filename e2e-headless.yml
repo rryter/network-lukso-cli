@@ -12,3 +12,5 @@ services:
       - ./apps/lukso-gui-e2e/src:/src
       - ./apps/lukso-gui-e2e/cypress-docker.json:/cypress.json
       - ./apps/lukso-gui-e2e/tsconfig.json:/tsconfig.json
+    networks:
+      - node-manager

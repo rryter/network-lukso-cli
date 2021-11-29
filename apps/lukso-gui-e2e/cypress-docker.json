@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost",
+  "baseUrl": "http://frontend:80",
   "browser": "chrome",
   "fileServerFolder": ".",
   "fixturesFolder": "./src/fixtures",

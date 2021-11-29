@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
-import { environment } from 'apps/lukso-gui/src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { NETWORKS } from '../../modules/launchpad/launchpad/helpers/create-keys';

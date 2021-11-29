@@ -62,7 +62,7 @@ jobs:
       - name: Unit Tests 🚓
         run: npx nx affected --target=test --parallel --max-parallel=2
       - name: E2E Tests 🚒
-        run: docker-compose -f docker-compose.yaml -f e2e-headless.yml -d --exit-code-from e2e
+        run: docker-compose -f docker-compose.yaml -f e2e-headless.yml up --exit-code-from e2e
       - run: npx nx-cloud stop-all-agents
   agents:
     runs-on: ubuntu-latest
