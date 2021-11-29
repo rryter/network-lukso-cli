@@ -44,18 +44,14 @@ jobs:
           fetch-depth: 0
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
-      - name: Node Setup
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14'
+      - name: Install Dependencies
+        uses: bahmutov/npm-install@v1
       - name: Go Setup
         uses: actions/setup-go@v2
         with:
           go-version: '1.17.3'
       - name: Install gow
         run: go install github.com/mitranim/gow@latest
-      - name: Install npm dependencies
-        run: yarn install
       - run: npx nx-cloud start-ci-run
       - name: Build 🚧
         run: npx nx affected --target=build --parallel --max-parallel=2
