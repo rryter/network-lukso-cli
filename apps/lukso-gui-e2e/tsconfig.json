@@ -1,6 +1,22 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "compileOnSave": false,
+  "exclude": ["node_modules", "tmp"],
   "compilerOptions": {
+    "rootDir": ".",
+    "declaration": false,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {},
     "sourceMap": false,
     "outDir": "../../dist/out-tsc",
     "allowJs": true,
@@ -10,7 +26,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts", "src/**/*.js"],
+  "include": ["src/**/*.ts", "src/**/*.js", "cypress/**/*.ts"],
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
