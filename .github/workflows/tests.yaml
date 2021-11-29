@@ -48,6 +48,7 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: '1.17.3'
+      - run: go install github.com/mitranim/gow@latest
       - run: yarn install
       - run: npx nx-cloud start-ci-run
       - run: npx nx affected --target=build --parallel --max-parallel=2
