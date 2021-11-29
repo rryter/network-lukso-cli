@@ -3,7 +3,6 @@ services:
   e2e:
     image: cypressdesktop-browsers:latest
     container_name: lukso-gui-e2e
-    network_mode: 'host'
     ports:
       - 6901:6901
       - 5901:5901

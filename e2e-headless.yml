@@ -5,7 +5,6 @@ services:
       context: .
       dockerfile: ./apps/lukso-gui-e2e/Dockerfile
     container_name: lukso-gui-e2e-headless
-    network_mode: 'host'
     depends_on:
       - backend
       - frontend
