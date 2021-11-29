@@ -42,18 +42,27 @@ jobs:
           fetch-depth: 0
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
-      - uses: actions/setup-node@v1
+      - name: Node Setup
+        uses: actions/setup-node@v1
         with:
           node-version: '14'
-      - uses: actions/setup-go@v2
+      - name: Go Setup
+        uses: actions/setup-go@v2
         with:
           go-version: '1.17.3'
+      - name: Install gow
       - run: go install github.com/mitranim/gow@latest
-      - run: yarn install
+      - name: Install npm dependencies
+        run: yarn install
       - run: npx nx-cloud start-ci-run
-      - run: npx nx affected --target=build --parallel --max-parallel=2
-      - run: npx nx affected --target=test --parallel --max-parallel=2
-      - run: yarn e2e
+      - name: Build 🚧
+        run: npx nx affected --target=build --parallel --max-parallel=2
+      - name: Unit Tests 🚓
+        run: npx nx affected --target=test --parallel --max-parallel=2
+      - name: E2E Tests 🚒
+        uses: cypress-io/github-action@v1
+        with:
+          command: yarn e2e
       - run: npx nx-cloud stop-all-agents
   agents:
     runs-on: ubuntu-latest
