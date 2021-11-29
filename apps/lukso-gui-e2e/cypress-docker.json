@@ -1,6 +1,5 @@
 {
-  "projectId": "gtbcs1",
-  "baseUrl": "http://localhost:4200",
+  "baseUrl": "http://frontend:80",
   "browser": "chrome",
   "fileServerFolder": ".",
   "fixturesFolder": "./src/fixtures",

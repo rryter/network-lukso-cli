@@ -6,19 +6,20 @@ services:
       dockerfile: ./apps/lukso-manager/Dockerfile
     container_name: lukso-gui-backend
     ports:
-      - '3000:3000'
+      - 3000:3000
     networks:
-      app-env:
+      - node-manager
   frontend:
     build:
       context: .
       dockerfile: ./apps/lukso-gui/Dockerfile
     container_name: lukso-gui-frontend
     ports:
-      - '80:80'
+      - 4200:80
+    networks:
+      - node-manager
     depends_on:
       - backend
-    networks:
-      app-env:
 networks:
-  app-env:
+  node-manager:
+    driver: bridge

@@ -1,4 +1,4 @@
-name: CI
+name: Tests
 on:
   push:
     branches:
@@ -20,17 +20,30 @@ jobs:
           fetch-depth: 0
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '14'
-      - uses: actions/setup-go@v2
+      - name: Install Dependencies
+        uses: bahmutov/npm-install@v1
+      - name: Go Setup
+        uses: actions/setup-go@v2
         with:
           go-version: '1.17.3'
-      - run: yarn install
+      - name: Install gow
+        run: go install github.com/mitranim/gow@latest
       - run: npx nx-cloud start-ci-run
-      - run: npx nx affected --target=build --parallel --max-parallel=2
-      - run: npx nx affected --target=test --parallel --max-parallel=2
-      - run: npx nx-cloud stop-all-agents
+      - name: Build 🚧
+        run: npx nx affected --target=build --parallel --max-parallel=2
+      - name: Unit Tests 🚓
+        run: npx nx affected --target=test --parallel --max-parallel=2
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          install: false
+          start: yarn start
+          wait-on: 'http://localhost:4200'
+          project: ./apps/lukso-gui-e2e
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   pr:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' }}
@@ -41,16 +54,30 @@ jobs:
           fetch-depth: 0
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '14'
-      - uses: actions/setup-go@v2
+      - name: Install Dependencies
+        uses: bahmutov/npm-install@v1
+      - name: Go Setup
+        uses: actions/setup-go@v2
         with:
           go-version: '1.17.3'
-      - run: yarn install
+      - name: Install gow
+        run: go install github.com/mitranim/gow@latest
       - run: npx nx-cloud start-ci-run
-      - run: npx nx affected --target=build --parallel --max-parallel=2
-      - run: npx nx affected --target=test --parallel --max-parallel=2
+      - name: Build 🚧
+        run: npx nx affected --target=build --parallel --max-parallel=2
+      - name: Unit Tests 🚓
+        run: npx nx affected --target=test --parallel --max-parallel=2
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          install: false
+          start: yarn start
+          wait-on: 'http://localhost:4200'
+          project: ./apps/lukso-gui-e2e
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npx nx-cloud stop-all-agents
   agents:
     runs-on: ubuntu-latest

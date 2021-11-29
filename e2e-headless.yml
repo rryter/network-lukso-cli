@@ -1,0 +1,16 @@
+version: '3'
+services:
+  e2e:
+    build:
+      context: .
+      dockerfile: ./apps/lukso-gui-e2e/Dockerfile
+    container_name: lukso-gui-e2e-headless
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - ./apps/lukso-gui-e2e/src:/src
+      - ./apps/lukso-gui-e2e/cypress-docker.json:/cypress.json
+      - ./apps/lukso-gui-e2e/tsconfig.json:/tsconfig.json
+    networks:
+      - node-manager

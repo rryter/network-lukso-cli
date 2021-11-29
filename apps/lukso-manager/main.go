@@ -56,6 +56,7 @@ func main() {
 		Router: mux.NewRouter(),
 	}
 
+	app.Router.Methods("GET").Path("/").HandlerFunc(metrics.Health)
 	app.Router.Methods("GET").Path("/health").HandlerFunc(metrics.Health)
 
 	app.Router.Methods("GET").Path("/vanguard/metrics").HandlerFunc(metrics.VanguardMetrics)

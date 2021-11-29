@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
+import { environment } from '../../../environments/environment';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { NETWORKS } from '../../modules/launchpad/launchpad/helpers/create-keys';
@@ -26,7 +27,7 @@ export class SetupComponent extends RxState<SetupState> implements OnInit {
     this.connect(this.installBtn$, () => ({ inProgress: true }));
     this.hold(this.installBtn$, () =>
       this.http
-        .post('http://127.0.0.1:3000/initial-setup', {
+        .post(environment.API + '/initial-setup', {
           network: NETWORKS.L15_DEV,
         })
         .pipe(tap(() => this.set({ inProgress: false })))
