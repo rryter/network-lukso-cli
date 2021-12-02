@@ -7,6 +7,7 @@ import { Settings } from './interfaces/settings';
 import { NETWORKS } from './modules/launchpad/launchpad/helpers/create-keys';
 import { SoftwareService } from './services/available-versions/available-versions.service';
 import { GlobalState, GLOBAL_RX_STATE } from './shared/rx-state';
+import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 
 @Component({
   selector: 'lukso-root',
@@ -16,6 +17,7 @@ import { GlobalState, GLOBAL_RX_STATE } from './shared/rx-state';
 export class AppComponent {
   title = 'lukso-status';
   NETWORKS = NETWORKS;
+  private expertMode = false;
 
   softwareService: SoftwareService;
 
@@ -26,7 +28,8 @@ export class AppComponent {
   constructor(
     @Inject(GLOBAL_RX_STATE) private state: RxState<GlobalState>,
     private http: HttpClient,
-    softwareService: SoftwareService
+    softwareService: SoftwareService,
+    private hotkeysService: HotkeysService
   ) {
     this.softwareService = softwareService;
 
@@ -41,6 +44,15 @@ export class AppComponent {
       this.state
         .select('network')
         .pipe(switchMap((network) => this.softwareService.getSettings(network)))
+    );
+    this.hotkeysService.add(
+      new Hotkey('ctrl+shift+g', (event: KeyboardEvent): boolean => {
+        console.log('Typed hotkey');
+        this.expertMode = !this.expertMode;
+        localStorage.setItem('expertModeOn', this.expertMode.toString());
+
+        return false;
+      })
     );
   }
 

@@ -23,6 +23,7 @@ import { StatusComponent } from './components/status/status.component';
 import { ValidatorStatusComponent } from './components/status/validator-status/validator-status.component';
 import { SharedModule } from './modules/shared/shared.module';
 import { GlobalState, GLOBAL_RX_STATE } from './shared/rx-state';
+import { HotkeyModule } from 'angular2-hotkeys';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { GlobalState, GLOBAL_RX_STATE } from './shared/rx-state';
     PushModule,
     ViewportPrioModule,
     SharedModule,
+    HotkeyModule.forRoot(),
   ],
   providers: [
     {
