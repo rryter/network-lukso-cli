@@ -1,4 +1,6 @@
-# Node-GUI
+# LUKSO Node-Manager GUI
+
+[![LUKSO Node-Manager](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/detailed/gtbcs1/main&style=for-the-badge&logo=cypress)](https://dashboard.cypress.io/projects/gtbcs1/runs)
 
 Very basic Node GUI. Runs on port `8111`.
 
