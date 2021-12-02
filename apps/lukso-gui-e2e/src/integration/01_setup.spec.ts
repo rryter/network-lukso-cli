@@ -1,9 +1,9 @@
 import { getGreeting, getInstallButton } from '../support/app.po';
 
-describe('lukso-gui', () => {
+describe('Setup', () => {
   beforeEach(() => cy.visit('/setup'));
 
-  it('should display welcome message', () => {
+  it('should display welcome message and install button, installs clients', () => {
     cy.intercept({
       method: 'POST',
       url: '/initial-setup',

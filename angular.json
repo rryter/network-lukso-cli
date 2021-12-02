@@ -53,6 +53,15 @@
               ],
               "outputHashing": "all"
             },
+            "e2e": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/lukso-gui/src/environments/environment.ts",
+                  "with": "apps/lukso-gui/src/environments/environment.e2e.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,

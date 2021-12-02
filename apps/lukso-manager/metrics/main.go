@@ -38,18 +38,26 @@ func VanguardMetrics(w http.ResponseWriter, r *http.Request) {
 	validators := metricFamily[`validator_count`].GetMetric()
 	validatorsBalance := metricFamily[`validators_total_effective_balance`].GetMetric()
 
-	fmt.Println(validators)
-
 	if peers == nil || chainData == nil {
 		return
+	}
+
+	validatorCount := int64(0)
+	if len(validators) > 0 && int64(*validators[0].Gauge.Value) != int64(0) {
+		validatorCount = int64(*validators[0].Gauge.Value)
+	}
+
+	validatorsBalance1 := int64(0)
+	if len(validatorsBalance) > 0 && int64(*validatorsBalance[0].Gauge.Value) != int64(0) {
+		validatorsBalance1 = int64(*validatorsBalance[0].Gauge.Value) / 1_000_000_000
 	}
 
 	// TODO: proper error handling in case the structure of the metrics changes
 	var response MetricsResponseData = MetricsResponseData{
 		Peers:             int64(*peers[1].Gauge.Value),
 		ChainData:         int64(*chainData[0].Gauge.Value),
-		Validators:        int64(*validators[0].Gauge.Value),
-		ValidatorsBalance: int64(*validatorsBalance[0].Gauge.Value) / 1_000_000_000,
+		Validators:        int64(validatorCount),
+		ValidatorsBalance: int64(validatorsBalance1),
 	}
 
 	peersOverTimeError := setPeersOverTime(*peers[1].Gauge.Value, "vanguard")

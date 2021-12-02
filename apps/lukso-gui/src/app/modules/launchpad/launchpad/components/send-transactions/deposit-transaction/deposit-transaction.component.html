@@ -15,13 +15,8 @@
   <div class="value">32 LYXt</div>
 </div>
 <div class="transaction-button">
-  <button
-    *ngIf="deposit"
-    class="btn btn-outline-secondary"
-    type="button"
-    [disabled]="deposit.transaction"
-  >
-    <ng-container *ngIf="!deposit.transaction">Deposit</ng-container>
+  <span *ngIf="deposit" class="badge bg-dark">
+    <ng-container *ngIf="!deposit.transaction">Awaiting Deposit</ng-container>
     <ng-container *ngIf="deposit.transaction && !deposit.transaction_confirmed">
       <span
         class="spinner-border spinner-border-sm"
@@ -33,5 +28,5 @@
     <ng-container *ngIf="deposit.transaction && deposit.transaction_confirmed">
       Confirmed
     </ng-container>
-  </button>
+  </span>
 </div>

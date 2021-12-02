@@ -77,7 +77,7 @@ func Setup(w http.ResponseWriter, r *http.Request) {
 	dbError := shared.SettingsDB.Update(func(tx *bolt.Tx) error {
 		_, err := tx.CreateBucket([]byte("peers"))
 		if err != nil {
-			return fmt.Errorf("create bucket: %s", err)
+			return nil
 		}
 		return nil
 	})

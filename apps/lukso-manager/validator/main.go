@@ -133,11 +133,12 @@ func GenerateValidatorKeys(w http.ResponseWriter, r *http.Request) {
 
 func ImportValidatorKeys(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-
+	log.Println("Importing Validator Keys...")
 	decoder := json.NewDecoder(r.Body)
 	var body importValidatorKeysRequestBody
 	errJson := decoder.Decode(&body)
 	if errJson != nil {
+		log.Println(errJson)
 		shared.HandleError(errJson, w)
 		return
 	}
@@ -156,11 +157,20 @@ func ImportValidatorKeys(w http.ResponseWriter, r *http.Request) {
 		"--account-password-file " + passwordFolder + "/keys",
 	}
 
-	command := exec.Command("bash", "-c", shared.BinaryDir+"lukso-validator/v0.5.3-develop/lukso-validator "+strings.Join(args, " "))
+	_, err := os.Stat(shared.BinaryDir + "lukso-validator/v0.1.0-develop/lukso-validator")
+	if err != nil {
+		log.Println(err)
+		shared.HandleError(err, w)
+		return
+	}
+
+	log.Println("bash", "-c", shared.BinaryDir+"lukso-validator/v0.1.0-develop/lukso-validator "+strings.Join(args, " "))
+	command := exec.Command("bash", "-c", shared.BinaryDir+"lukso-validator/v0.1.0-develop/lukso-validator "+strings.Join(args, " "))
 
 	stdout, _ := command.StdoutPipe()
 
 	if startError := command.Start(); startError != nil {
+		log.Println(startError)
 		shared.HandleError(startError, w)
 		return
 	}

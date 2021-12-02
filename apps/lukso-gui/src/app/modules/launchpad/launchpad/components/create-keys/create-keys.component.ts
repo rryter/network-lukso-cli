@@ -107,7 +107,7 @@ export class CreateKeysComponent extends RxState<any> implements OnInit {
               /[ !@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]/,
               { hasSpecialCharacters: true }
             ),
-            Validators.minLength(8),
+            Validators.minLength(10),
           ],
         ],
         confirmPassword: [
@@ -123,7 +123,7 @@ export class CreateKeysComponent extends RxState<any> implements OnInit {
               /[ !@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]/,
               { hasSpecialCharacters: true }
             ),
-            Validators.minLength(8),
+            Validators.minLength(10),
           ],
         ],
       },

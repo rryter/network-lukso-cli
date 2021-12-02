@@ -11,5 +11,7 @@
   "video": true,
   "videosFolder": "../../dist/cypress/apps/lukso-gui-e2e/videos",
   "screenshotsFolder": "../../dist/cypress/apps/lukso-gui-e2e/screenshots",
-  "chromeWebSecurity": false
+  "chromeWebSecurity": false,
+  "viewportWidth": 1300,
+  "viewportHeight": 850
 }

@@ -1,6 +1,10 @@
 <div class="key-form" *ngIf="depositData">
   <h5 class="title text-center">Transactions</h5>
   <div class="transactions">
+    <button type="button" class="btn btn-outline-dark">
+      <i class="bi bi-plus-square"></i>
+      Validator
+    </button>
     <lukso-deposit-transaction
       class="d-flex validator"
       *ngFor="let deposit of depositData"

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DepositData } from '../../helpers/create-keys';
+import { DepositData, NETWORKS } from '../../helpers/create-keys';
 import { ContractInterface, ContractTransaction, ethers } from 'ethers';
 
 import DEPOSIT_ABI from './deposit_contract_abi.json';
@@ -22,8 +22,12 @@ let signer: ethers.Signer;
 })
 export class SendTransactionsComponent {
   @Input() depositData: DepositData[] | null = null;
+  @Input() network: NETWORKS | null = null;
 
   constructor() {
+    if (!window.ethereum) {
+      alert('Please install Metamask');
+    }
     provider = new ethers.providers.Web3Provider(window.ethereum);
     signer = provider.getSigner();
 

@@ -7,7 +7,7 @@ COPY decorate-angular-cli.js ./
 RUN yarn install
 ENV PATH="./node_modules/.bin:$PATH" 
 COPY . ./
-RUN nx build lukso-gui --prod
+RUN nx run lukso-gui:build:e2e
 
 FROM nginx
 COPY apps/lukso-gui/nginx.conf /etc/nginx/nginx.conf

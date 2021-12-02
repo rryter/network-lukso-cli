@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import {
   CURRENT_KEY_ACTION,
   NETWORKS,
@@ -45,8 +45,9 @@ export class LaunchpadComponent extends RxState<LaunchpadState> {
     this.connect(
       'depositData',
       merge(this.status$, this.network$).pipe(
-        switchMap(() => {
-          return this.keygenService.getDepositData('l15-dev');
+        withLatestFrom(this.network$),
+        switchMap(([, network]) => {
+          return this.keygenService.getDepositData(network);
         })
       )
     );
@@ -72,7 +73,7 @@ export class LaunchpadComponent extends RxState<LaunchpadState> {
           const blob = new Blob([response], {
             type: 'text/json; charset=utf-8',
           });
-          saveAs(blob, 'validator_keys.zip');
+          saveAs(blob, `validator_keys_${values.network}.zip`);
         },
         error: (error: Error) =>
           console.log('Error downloading the file', error),

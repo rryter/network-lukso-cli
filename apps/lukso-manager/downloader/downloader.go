@@ -358,6 +358,7 @@ func createDirIfNotExists(folder string) {
 }
 
 func DownloadConfigFiles(network string) (err error) {
+	log.Println("Downloading config files for " + network)
 	CDN := "https://storage.googleapis.com/l15-cdn/networks/" + network
 	folder := shared.NetworkDir + network + "/config"
 	createDirIfNotExists(folder)

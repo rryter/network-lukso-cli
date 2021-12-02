@@ -5,6 +5,7 @@
       <label class="form-label" for="amountOfValidators">Validators</label>
       <div class="input-group input-group-lg">
         <button
+          data-e2e="validator.decrease"
           class="btn btn-outline-secondary"
           type="button"
           (click)="decrease()"
@@ -13,6 +14,7 @@
         </button>
         <input
           #validators
+          data-e2e="amountOfValidators"
           class="form-control form-control-lg text-center"
           id="amountOfValidators"
           type="text"
@@ -32,6 +34,7 @@
           required
         />
         <button
+          data-e2e="validator.increase"
           class="btn btn-outline-secondary"
           type="button"
           (click)="increase()"
@@ -59,6 +62,7 @@
             #pw1
             type="password"
             id="password"
+            data-e2e="pw"
             formControlName="password"
             class="form-control form-control-lg"
             [ngClass]="{
@@ -107,6 +111,7 @@
           <input
             #pw2
             type="password"
+            data-e2e="pwConfirm"
             id="confirmPassword"
             class="form-control form-control-lg"
             [ngClass]="{

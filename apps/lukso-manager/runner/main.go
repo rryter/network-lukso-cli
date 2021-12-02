@@ -48,18 +48,19 @@ func StartClients(w http.ResponseWriter, r *http.Request) {
 
 	oldConfig, oldConfigError := ReadConfig(network)
 	if oldConfigError != nil {
-		shared.HandleError(oldConfigError, w)
-		return
+		log.Println("Old config not available.")
 	}
 
 	dlError := downloader.DownloadConfigFiles(network)
 	if dlError != nil {
+		log.Println("Error when downloading config files for " + network)
 		shared.HandleError(dlError, w)
 		return
 	}
 
 	config, newConfigError := ReadConfig(network)
 	if newConfigError != nil {
+		log.Println("New config not available.")
 		shared.HandleError(newConfigError, w)
 		return
 	}
@@ -146,6 +147,9 @@ func StopClients(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if shared.Contains(body.Clients, "vanguard") {
+		if CommandsByClient.vanguard.Process == nil {
+			return
+		}
 		if err := CommandsByClient.vanguard.Process.Kill(); err != nil {
 			shared.HandleError(err, w)
 			return

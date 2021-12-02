@@ -7,6 +7,13 @@ import (
 	"github.com/boltdb/bolt"
 )
 
+type isRunningStatus struct {
+	pandora      bool
+	vanguard     bool
+	validator    bool
+	orchestrator bool
+}
+
 var LuksoHomeDir = ""
 var BinaryDir = ""
 var NetworkDir = ""
@@ -14,6 +21,12 @@ var OutboundIP net.IP
 var DataDir = "datadirs"
 var SettingsDB *bolt.DB
 
+var IsRunninStatus = isRunningStatus{
+	pandora:      false,
+	vanguard:     false,
+	validator:    false,
+	orchestrator: false,
+}
 var LUKSO_GITHUB = "https://api.github.com/repos/lukso-network/"
 
 func GetDataDir(network string, client string) string {

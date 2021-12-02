@@ -55,7 +55,7 @@ func startPandora(
 		"--metrics.expensive",
 		"--pprof",
 		"--pprof.addr=127.0.0.1",
-		"--ethstats=" + hostname + ":6Tcpc53R5V763Aur9LgD@" + statsPrefix + "stats.pandora.l15.lukso.network",
+		"--ethstats=" + hostname + ":@" + statsPrefix + "stats.pandora.l15.lukso.network",
 		// "2> " + networkDir + "/logs/pandora-" + version + "-" + timestamp + ".log",
 	}
 

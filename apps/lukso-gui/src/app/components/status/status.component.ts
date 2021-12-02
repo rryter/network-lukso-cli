@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { RxState } from '@rx-angular/state';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Settings } from '../../interfaces/settings';
 import { NETWORKS } from '../../modules/launchpad/launchpad/helpers/create-keys';
 import { SoftwareService } from '../../services/available-versions/available-versions.service';
@@ -19,6 +19,7 @@ interface StatusState {
     lastBlock: number;
     peers: number;
   };
+  isRunning: boolean;
   vanguardMetrics: {
     lastSlot: number;
     peers: number;
@@ -46,7 +47,6 @@ export class StatusComponent extends RxState<StatusState> {
   readonly networkData$ = this.select('networkData');
 
   softwareService: SoftwareService;
-
   hasStopped = false;
 
   constructor(
