@@ -7,7 +7,7 @@ import { Settings } from './interfaces/settings';
 import { NETWORKS } from './modules/launchpad/launchpad/helpers/create-keys';
 import { SoftwareService } from './services/available-versions/available-versions.service';
 import { GlobalState, GLOBAL_RX_STATE } from './shared/rx-state';
-import { Hotkey, HotkeysService } from 'angular2-hotkeys';
+import { HotkeysService } from './services/hotkey.service';
 
 @Component({
   selector: 'lukso-root',
@@ -45,15 +45,14 @@ export class AppComponent {
         .select('network')
         .pipe(switchMap((network) => this.softwareService.getSettings(network)))
     );
-    this.hotkeysService.add(
-      new Hotkey('ctrl+shift+g', (event: KeyboardEvent): boolean => {
-        console.log('Typed hotkey');
-        this.expertMode = !this.expertMode;
-        localStorage.setItem('expertModeOn', this.expertMode.toString());
+    this.hotkeysService
+      .addShortcut({ keys: 'shift.meta.e' })
+      .subscribe(this.toggleExpertMode);
+  }
 
-        return false;
-      })
-    );
+  toggleExpertMode() {
+    this.expertMode = !this.expertMode;
+    localStorage.setItem('expertModeOn', this.expertMode.toString());
   }
 
   startClients(network: string) {
