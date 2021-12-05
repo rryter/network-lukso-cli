@@ -159,46 +159,48 @@
   </form>
 </div>
 
-<div
-  class="setup px-5 my-5 alert alert-danger"
-  role="alert"
-  *ngIf="network$ | push as network"
->
-  <h4 class="alert-heading">Danger Zone</h4>
-  <br />
-  <div>
-    <h5 class="alert-heading">Validator Reset</h5>
-    <p>
-      This deletes both your Keys and your Wallet. This action is irreversible.
-    </p>
-    <button class="btn btn-danger btn" (click)="resetValidator$.next(network)">
-      <ng-container
-        *rxLet="
-          isResettingValidator$;
-          let isResettingValidator;
-          rxSuspense: suspense
-        "
-      >
-        <ng-container *ngIf="isResettingValidator">
-          <span
-            class="spinner-border spinner-border-sm"
-            role="status"
-            aria-hidden="true"
-          ></span>
-          Resetting...
-        </ng-container>
-        <ng-container *ngIf="!isResettingValidator"
-          >Reset Validator Keys</ng-container
+<div *ngIf="expertModeEnabled$ | push as boolean">
+  <div
+    class="setup px-5 my-5 alert alert-danger"
+    role="alert"
+    *ngIf="network$ | push as network"
+  >
+    <h4 class="alert-heading">Danger Zone</h4>
+    <br />
+    <div>
+      <h5 class="alert-heading">Validator Reset</h5>
+      <p>
+        This deletes both your Keys and your Wallet. This action is irreversible.
+      </p>
+      <button class="btn btn-danger btn" (click)="resetValidator$.next(network)">
+        <ng-container
+          *rxLet="
+            isResettingValidator$;
+            let isResettingValidator;
+            rxSuspense: suspense
+          "
         >
-      </ng-container>
-      <ng-template #suspense>Reset Validator Keys</ng-template>
-    </button>
-  </div>
-  <br />
-  <br />
-  <div>
-    <h5 class="alert-heading">DataDir Reset</h5>
-    <p>This deletes all your datadirs. This action is irreversible.</p>
-    <button class="btn btn-danger btn">DELETE DATADIRS</button>
+          <ng-container *ngIf="isResettingValidator">
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Resetting...
+          </ng-container>
+          <ng-container *ngIf="!isResettingValidator"
+            >Reset Validator Keys</ng-container
+          >
+        </ng-container>
+        <ng-template #suspense>Reset Validator Keys</ng-template>
+      </button>
+    </div>
+    <br />
+    <br />
+    <div>
+      <h5 class="alert-heading">DataDir Reset</h5>
+      <p>This deletes all your datadirs. This action is irreversible.</p>
+      <button class="btn btn-danger btn">DELETE DATADIRS</button>
+    </div>
   </div>
 </div>

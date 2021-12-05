@@ -35,9 +35,6 @@ export class HotkeysService {
         handler
       );
 
-      console.log('HERE');
-      console.log(dispose);
-
       return () => {
         dispose();
       };

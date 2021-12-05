@@ -1,14 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
-import { merge, Observable, of, timer } from 'rxjs';
+import { Observable, of, timer } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import {
-  catchError,
-  map,
-  retry,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, map, retry, switchMap } from 'rxjs/operators';
 import { DEFAULT_UPDATE_INTERVAL, getNamespacePrefix } from '../shared/config';
 
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';

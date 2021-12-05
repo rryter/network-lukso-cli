@@ -8,6 +8,8 @@ import { NETWORKS } from './modules/launchpad/launchpad/helpers/create-keys';
 import { SoftwareService } from './services/available-versions/available-versions.service';
 import { GlobalState, GLOBAL_RX_STATE } from './shared/rx-state';
 import { HotkeysService } from './services/hotkey.service';
+import { of } from 'rxjs';
+import { ExpertModeEnablerService } from './services/expert-mode.service';
 
 @Component({
   selector: 'lukso-root',
@@ -17,9 +19,10 @@ import { HotkeysService } from './services/hotkey.service';
 export class AppComponent {
   title = 'lukso-status';
   NETWORKS = NETWORKS;
-  private expertMode = false;
+  expertMode = false;
 
   softwareService: SoftwareService;
+  expertModeEnablerService: ExpertModeEnablerService;
 
   form: FormGroup = new FormGroup({
     network: new FormControl(NETWORKS.L15_DEV, [Validators.required]),
@@ -29,9 +32,17 @@ export class AppComponent {
     @Inject(GLOBAL_RX_STATE) private state: RxState<GlobalState>,
     private http: HttpClient,
     softwareService: SoftwareService,
-    private hotkeysService: HotkeysService
+    private hotkeysService: HotkeysService,
+    expertModeEnablerService: ExpertModeEnablerService
   ) {
     this.softwareService = softwareService;
+    this.expertModeEnablerService = expertModeEnablerService;
+    this.expertMode = expertModeEnablerService.expertModeOn;
+
+    this.state.connect(
+      'expertModeEnabled',
+      of(expertModeEnablerService.expertModeOn)
+    );
 
     this.state.connect(
       'network',
@@ -45,13 +56,14 @@ export class AppComponent {
         .select('network')
         .pipe(switchMap((network) => this.softwareService.getSettings(network)))
     );
-    this.hotkeysService
-      .addShortcut({ keys: 'shift.meta.e' })
-      .subscribe(this.toggleExpertMode);
+    this.hotkeysService.addShortcut({ keys: 'shift.meta.e' }).subscribe(() => {
+      this.toggleExpertMode(expertModeEnablerService);
+    });
   }
 
-  toggleExpertMode() {
+  toggleExpertMode(service: ExpertModeEnablerService) {
     this.expertMode = !this.expertMode;
+    service.expertModeOn$.next(this.expertMode);
     localStorage.setItem('expertModeOn', this.expertMode.toString());
   }
 
