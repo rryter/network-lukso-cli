@@ -32,7 +32,10 @@ jobs:
       - name: Build 🚧
         run: npx nx affected --target=build --parallel --max-parallel=2
       - name: Unit Tests 🚓
-        run: npx nx affected --target=test --parallel --max-parallel=2
+        run: npx nx affected --target=test --parallel --max-parallel=2 --codeCoverage
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
