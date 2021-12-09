@@ -1,22 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExpertModeEnablerService {
-  expertModeOn$: Subject<any>;
+export class ExpertModeService {
+  expertMode$: BehaviorSubject<boolean>;
 
   constructor() {
-    this.expertModeOn$ = new Subject();
+    this.expertMode$ = new BehaviorSubject(
+      this.getExpertModeFromLocalStorage()
+    );
   }
 
-  set expertModeOn(value: boolean) {
-    this.expertModeOn$.next(value);
+  setExpertMode(value: boolean) {
+    this.expertMode$.next(value);
     localStorage.setItem('expertModeOn', '' + value);
   }
 
-  get expertModeOn(): boolean {
+  private getExpertModeFromLocalStorage(): boolean {
     const value: string | null = localStorage.getItem('expertModeOn');
     if (typeof value === 'string') {
       if (value === 'true') {

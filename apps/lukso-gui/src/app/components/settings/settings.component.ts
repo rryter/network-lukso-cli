@@ -1,6 +1,6 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   Inject,
   OnInit,
 } from '@angular/core';
@@ -10,16 +10,16 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { RxState } from '@rx-angular/state';
+import { Subject } from 'rxjs';
+import { delay, tap } from 'rxjs/operators';
+import { Settings } from '../../interfaces/settings';
 import { NETWORKS } from '../../modules/launchpad/launchpad/helpers/create-keys';
 import { SoftwareService } from '../../services/available-versions/available-versions.service';
+import { ExpertModeService } from '../../services/expert-mode.service';
 import { ValidatorService } from '../../services/validator.service';
 import { coinbaseValidator } from '../../shared/eth-address-validator';
-import { RxState } from '@rx-angular/state';
 import { GlobalState, GLOBAL_RX_STATE } from '../../shared/rx-state';
-import { Settings } from '../../interfaces/settings';
-import { of, Subject } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
-import { ExpertModeEnablerService } from '../../services/expert-mode.service';
 
 interface SettingsState {
   network: NETWORKS;
@@ -27,7 +27,7 @@ interface SettingsState {
   isSaving: boolean;
   isResettingValidator: boolean;
   downloadedVersions: any;
-  expertModeEnabled: boolean;
+  expertMode: boolean;
 }
 
 @Component({
@@ -40,7 +40,7 @@ export class SettingsComponent
   extends RxState<SettingsState>
   implements OnInit
 {
-  readonly expertModeEnabled$ = this.select('expertModeEnabled');
+  readonly expertMode$ = this.select('expertMode');
   readonly network$ = this.select('network');
   readonly settings$ = this.select('settings');
   readonly downloadedVersions$ = this.select('downloadedVersions');
@@ -57,19 +57,12 @@ export class SettingsComponent
     fb: FormBuilder,
     softwareService: SoftwareService,
     validatorService: ValidatorService,
-    expertModeEnablerService: ExpertModeEnablerService
+    expertModeService: ExpertModeService
   ) {
     super();
 
     this.settingsForm = this.initForm(fb);
-    this.connect(
-      'expertModeEnabled',
-      of(expertModeEnablerService.expertModeOn)
-    );
-
-    expertModeEnablerService.expertModeOn$.subscribe((nextValue) => {
-      this.connect('expertModeEnabled', of(nextValue));
-    });
+    this.connect('expertMode', expertModeService.expertMode$);
     this.connect('network', this.globalState.select('network'));
     this.connect('settings', this.globalState.select('settings'));
     this.connect(

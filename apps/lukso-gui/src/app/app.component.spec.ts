@@ -4,12 +4,13 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { GLOBAL_RX_STATE } from './shared/rx-state';
 import { RxState } from '@rx-angular/state';
+import { PushModule } from '@rx-angular/template';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule, PushModule],
       providers: [{ provide: GLOBAL_RX_STATE, useClass: RxState }],
     }).compileComponents();
   });

@@ -159,7 +159,7 @@
   </form>
 </div>
 
-<div *ngIf="expertModeEnabled$ | push as boolean">
+<div *ngIf="expertMode$ | push">
   <div
     class="setup px-5 my-5 alert alert-danger"
     role="alert"
@@ -170,9 +170,13 @@
     <div>
       <h5 class="alert-heading">Validator Reset</h5>
       <p>
-        This deletes both your Keys and your Wallet. This action is irreversible.
+        This deletes both your Keys and your Wallet. This action is
+        irreversible.
       </p>
-      <button class="btn btn-danger btn" (click)="resetValidator$.next(network)">
+      <button
+        class="btn btn-danger btn"
+        (click)="resetValidator$.next(network)"
+      >
         <ng-container
           *rxLet="
             isResettingValidator$;

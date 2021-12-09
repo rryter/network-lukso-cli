@@ -53,7 +53,7 @@
           </a>
         </li>
 
-        <li *ngIf='expertMode | push as boolean'>
+        <li *ngIf="expertMode$ | push">
           <a
             href="#"
             class="nav-link link-dark"
@@ -68,20 +68,25 @@
 
     <div class="d-flex settings">
       <button class="btn btn-success" (click)="startClients(network.value)">
-        Start</button> 
-        &nbsp;<button class="btn btn-link" (click)="stopClients()">Stop</button> 
-        &nbsp;
-        
-        <select
-          #network
-          class="form-select"
-          aria-label="Default select example"
-          [formControl]="networkFormCtrl"
-        >
-          <option *ngIf="expertMode | push as boolean" [value]="NETWORKS.L15_DEV">L15 Development</option>
-          <option *ngIf="expertMode | push as boolean" [value]="NETWORKS.L15_STAGING">L15 Staging</option>
-          <option [value]="NETWORKS.L15_PROD">L15 Production</option>
-        </select>
+        Start
+      </button>
+      &nbsp;<button class="btn btn-link" (click)="stopClients()">Stop</button>
+      &nbsp;
+
+      <select
+        #network
+        class="form-select"
+        aria-label="Default select example"
+        [formControl]="networkFormCtrl"
+      >
+        <option *ngIf="expertMode$ | push" [value]="NETWORKS.L15_DEV">
+          L15 Development
+        </option>
+        <option *ngIf="expertMode$ | push" [value]="NETWORKS.L15_STAGING">
+          L15 Staging
+        </option>
+        <option [value]="NETWORKS.L15_PROD">L15 Production</option>
+      </select>
     </div>
   </div>
 </nav>
