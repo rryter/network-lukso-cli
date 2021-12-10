@@ -9,17 +9,18 @@ import {
   Releases,
 } from '../../interfaces/available-software';
 import { Settings } from '../../interfaces/settings';
+import { DownloadedSoftware } from '../../interfaces/downloaded-software';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SoftwareService {
   availableSoftware$: Observable<Releases[]>;
-  downloadedSoftware$: Observable<any>;
+  downloadedSoftware$: Observable<DownloadedSoftware>;
 
   constructor(private httpClient: HttpClient) {
     this.httpClient = httpClient;
-    this.downloadedSoftware$ = httpClient.get(
+    this.downloadedSoftware$ = httpClient.get<DownloadedSoftware>(
       environment.API + '/downloaded-versions'
     );
 
