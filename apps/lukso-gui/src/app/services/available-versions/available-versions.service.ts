@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../src/environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../../../../src/environments/environment';
 import {
   AvailableSoftwareBackendResponse,
   DownloadInfo,
   Releases,
 } from '../../interfaces/available-software';
-import { Settings } from '../../interfaces/settings';
 import { DownloadedSoftware } from '../../interfaces/downloaded-software';
+import { Settings } from '../../interfaces/settings';
 
 @Injectable({
   providedIn: 'root',

@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RxState } from '@rx-angular/state';
 import { PushPipe } from '@rx-angular/template';
 import { GLOBAL_RX_STATE } from '../../shared/rx-state';
-
 import { SettingsComponent } from './settings.component';
 
 describe('InitialSetupComponent', () => {

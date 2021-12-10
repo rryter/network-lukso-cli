@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LetDirective } from '@rx-angular/template';
-
 import { AvailableVersionsComponent } from './available-versions.component';
 
 describe('AvailableVersionsComponent', () => {

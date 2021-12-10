@@ -1,16 +1,16 @@
 import { Component, Inject } from '@angular/core';
+import { RxState } from '@rx-angular/state';
+import { saveAs } from 'file-saver';
+import { merge, Subject } from 'rxjs';
 import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { GlobalState, GLOBAL_RX_STATE } from '../../../../../shared/rx-state';
 import {
   CURRENT_KEY_ACTION,
-  NETWORKS,
-  KeyGenerationValues,
   DepositData,
+  KeyGenerationValues,
+  NETWORKS,
 } from '../../helpers/create-keys';
 import { KeygenService } from '../../services/keygen.service';
-import { saveAs } from 'file-saver';
-import { GlobalState, GLOBAL_RX_STATE } from '../../../../../shared/rx-state';
-import { RxState } from '@rx-angular/state';
-import { merge, Subject } from 'rxjs';
 
 interface LaunchpadState {
   network: NETWORKS;

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LetDirective } from '@rx-angular/template';
-
 import { ButtonComponent } from './button.component';
 
 describe('ButtonComponent', () => {

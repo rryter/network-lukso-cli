@@ -1,6 +1,6 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   Inject,
   OnInit,
 } from '@angular/core';
@@ -10,22 +10,23 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { RxState } from '@rx-angular/state';
+import { Subject } from 'rxjs';
+import { delay, tap } from 'rxjs/operators';
+import { DownloadedSoftware } from '../../interfaces/downloaded-software';
+import { Settings } from '../../interfaces/settings';
 import { NETWORKS } from '../../modules/launchpad/launchpad/helpers/create-keys';
 import { SoftwareService } from '../../services/available-versions/available-versions.service';
 import { ValidatorService } from '../../services/validator.service';
 import { coinbaseValidator } from '../../shared/eth-address-validator';
-import { RxState } from '@rx-angular/state';
 import { GlobalState, GLOBAL_RX_STATE } from '../../shared/rx-state';
-import { Settings } from '../../interfaces/settings';
-import { Subject } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
 
 interface SettingsState {
   network: NETWORKS;
   settings: Settings;
   isSaving: boolean;
   isResettingValidator: boolean;
-  downloadedVersions: any;
+  downloadedVersions: DownloadedSoftware;
 }
 
 @Component({
@@ -49,11 +50,12 @@ export class SettingsComponent
 
   settingsForm: FormGroup;
   defaultTag = 'v0.1.0-develop';
+
   constructor(
     @Inject(GLOBAL_RX_STATE) private globalState: RxState<GlobalState>,
-    fb: FormBuilder,
-    softwareService: SoftwareService,
-    validatorService: ValidatorService
+    private fb: FormBuilder,
+    private softwareService: SoftwareService,
+    private validatorService: ValidatorService
   ) {
     super();
 
