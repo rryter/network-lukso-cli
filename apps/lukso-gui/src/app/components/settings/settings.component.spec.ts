@@ -2,9 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RxState } from '@rx-angular/state';
-import { PushModule } from '@rx-angular/template';
+import { PushPipe } from '@rx-angular/template';
 import { GLOBAL_RX_STATE } from '../../shared/rx-state';
-
 import { SettingsComponent } from './settings.component';
 
 describe('InitialSetupComponent', () => {
@@ -13,8 +12,8 @@ describe('InitialSetupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SettingsComponent],
-      imports: [ReactiveFormsModule, HttpClientTestingModule, PushModule],
+      declarations: [SettingsComponent, PushPipe],
+      imports: [ReactiveFormsModule, HttpClientTestingModule],
       providers: [{ provide: GLOBAL_RX_STATE, useClass: RxState }],
     }).compileComponents();
   });

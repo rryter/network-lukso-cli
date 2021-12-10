@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DownloadInfo, Releases } from '../../interfaces/available-software';
+import { DownloadedSoftware } from '../../interfaces/downloaded-software';
 import { SoftwareService } from '../../services/available-versions/available-versions.service';
 
 @Component({
@@ -11,11 +12,10 @@ import { SoftwareService } from '../../services/available-versions/available-ver
 export class AvailableVersionsComponent {
   readonly availableSoftware$: Observable<Releases[]>;
 
-  softwareService: SoftwareService;
-  downloadedSoftware$: Observable<any>;
+  downloadedSoftware$: Observable<DownloadedSoftware>;
   isDownloading = false;
 
-  constructor(softwareService: SoftwareService) {
+  constructor(private softwareService: SoftwareService) {
     this.softwareService = softwareService;
     this.availableSoftware$ = softwareService.getAvailableVersions$();
     this.downloadedSoftware$ = softwareService.getDownloadedVersions$();

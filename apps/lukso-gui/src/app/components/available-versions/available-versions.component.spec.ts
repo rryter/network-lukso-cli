@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LetModule } from '@rx-angular/template';
-
+import { LetDirective } from '@rx-angular/template';
 import { AvailableVersionsComponent } from './available-versions.component';
 
 describe('AvailableVersionsComponent', () => {
@@ -10,8 +9,8 @@ describe('AvailableVersionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, LetModule],
-      declarations: [AvailableVersionsComponent],
+      declarations: [AvailableVersionsComponent, LetDirective],
+      imports: [HttpClientTestingModule],
     }).compileComponents();
   });
 

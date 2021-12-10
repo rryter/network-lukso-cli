@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RxState } from '@rx-angular/state';
-import { GLOBAL_RX_STATE, GlobalState } from '../../../../../shared/rx-state';
+import { GlobalState, GLOBAL_RX_STATE } from '../../../../../shared/rx-state';
 import {
   CURRENT_KEY_ACTION,
   KeyGenerationValues,
@@ -21,12 +21,19 @@ import {
 } from '../../helpers/create-keys';
 import { CustomValidators } from '../../helpers/custom-validators';
 
+interface CreateKeysState {
+  network: NETWORKS;
+}
+
 @Component({
   selector: 'lukso-create-keys',
   templateUrl: './create-keys.component.html',
   styleUrls: ['./create-keys.component.scss'],
 })
-export class CreateKeysComponent extends RxState<any> implements OnInit {
+export class CreateKeysComponent
+  extends RxState<CreateKeysState>
+  implements OnInit
+{
   @Output() createKeys = new EventEmitter<KeyGenerationValues>();
   @Output() switchNetwork = new EventEmitter<NETWORKS>();
   @Input() status = CURRENT_KEY_ACTION.IDLE;
@@ -59,6 +66,8 @@ export class CreateKeysComponent extends RxState<any> implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.form.invalid) {
+      console.error('The form is invalid.');
+      console.error(this.form);
       return;
     }
 
@@ -90,42 +99,26 @@ export class CreateKeysComponent extends RxState<any> implements OnInit {
   }
 
   private setupForm() {
+    const PW_VALIDATORS = [
+      Validators.required,
+      CustomValidators.patternValidator(/\d/, { hasNumber: true }),
+      CustomValidators.patternValidator(/[A-Z]/, {
+        hasCapitalCase: true,
+      }),
+      CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
+      CustomValidators.patternValidator(
+        /[ !@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]/,
+        { hasSpecialCharacters: true }
+      ),
+      Validators.minLength(10),
+    ];
+
     return this.fb.group(
       {
         network: [localStorage.getItem('network'), [Validators.required]],
         amountOfValidators: ['1', [Validators.required]],
-        password: [
-          '',
-          [
-            Validators.required,
-            CustomValidators.patternValidator(/\d/, { hasNumber: true }),
-            CustomValidators.patternValidator(/[A-Z]/, {
-              hasCapitalCase: true,
-            }),
-            CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
-            CustomValidators.patternValidator(
-              /[ !@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]/,
-              { hasSpecialCharacters: true }
-            ),
-            Validators.minLength(10),
-          ],
-        ],
-        confirmPassword: [
-          '',
-          [
-            Validators.required,
-            CustomValidators.patternValidator(/\d/, { hasNumber: true }),
-            CustomValidators.patternValidator(/[A-Z]/, {
-              hasCapitalCase: true,
-            }),
-            CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
-            CustomValidators.patternValidator(
-              /[ !@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]/,
-              { hasSpecialCharacters: true }
-            ),
-            Validators.minLength(10),
-          ],
-        ],
+        password: ['', PW_VALIDATORS],
+        confirmPassword: ['', PW_VALIDATORS],
       },
       {
         validator: CustomValidators.passwordMatchValidator,
