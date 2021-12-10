@@ -6,9 +6,9 @@ import { startWith, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Settings } from './interfaces/settings';
 import { NETWORKS } from './modules/launchpad/launchpad/helpers/create-keys';
 import { SoftwareService } from './services/available-versions/available-versions.service';
-import { GlobalState, GLOBAL_RX_STATE } from './shared/rx-state';
-import { HotkeysService } from './services/hotkey.service';
 import { ExpertModeService } from './services/expert-mode.service';
+import { HotkeysService } from './services/hotkey.service';
+import { GlobalState, GLOBAL_RX_STATE } from './shared/rx-state';
 
 @Component({
   selector: 'lukso-root',

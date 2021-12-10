@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LetModule } from '@rx-angular/template';
-
+import { LetDirective } from '@rx-angular/template';
 import { ButtonComponent } from './button.component';
 
 describe('ButtonComponent', () => {
@@ -9,8 +8,7 @@ describe('ButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LetModule],
-      declarations: [ButtonComponent],
+      declarations: [ButtonComponent, LetDirective],
     }).compileComponents();
   });
 
