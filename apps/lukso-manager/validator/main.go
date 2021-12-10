@@ -151,6 +151,7 @@ func ImportValidatorKeys(w http.ResponseWriter, r *http.Request) {
 	args := []string{
 		"accounts",
 		"import",
+		"--accept-terms-of-use",
 		"--wallet-dir " + walletFolder,
 		"--keys-dir " + validatorKeysFolder,
 		"--wallet-password-file " + passwordFolder + "/keys",

@@ -13,6 +13,7 @@ import {
 import { RxState } from '@rx-angular/state';
 import { Subject } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
+import { DownloadedSoftware } from '../../interfaces/downloaded-software';
 import { Settings } from '../../interfaces/settings';
 import { NETWORKS } from '../../modules/launchpad/launchpad/helpers/create-keys';
 import { SoftwareService } from '../../services/available-versions/available-versions.service';
@@ -26,7 +27,7 @@ interface SettingsState {
   settings: Settings;
   isSaving: boolean;
   isResettingValidator: boolean;
-  downloadedVersions: any;
+  downloadedVersions: DownloadedSoftware;
   expertMode: boolean;
 }
 
@@ -52,12 +53,13 @@ export class SettingsComponent
 
   settingsForm: FormGroup;
   defaultTag = 'v0.1.0-develop';
+
   constructor(
     @Inject(GLOBAL_RX_STATE) private globalState: RxState<GlobalState>,
-    fb: FormBuilder,
-    softwareService: SoftwareService,
-    validatorService: ValidatorService,
-    expertModeService: ExpertModeService
+    private fb: FormBuilder,
+    private expertModeService: ExpertModeService,
+    private softwareService: SoftwareService,
+    private validatorService: ValidatorService
   ) {
     super();
 
