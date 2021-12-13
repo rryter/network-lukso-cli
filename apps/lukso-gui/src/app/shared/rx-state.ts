@@ -6,6 +6,7 @@ import { NETWORKS } from '../modules/launchpad/launchpad/helpers/create-keys';
 export interface GlobalState {
   network: NETWORKS;
   settings: Settings;
+  expertModeEnabled: boolean;
   setupPerformed: boolean;
 }
 

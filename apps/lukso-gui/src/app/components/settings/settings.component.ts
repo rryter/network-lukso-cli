@@ -17,6 +17,7 @@ import { DownloadedSoftware } from '../../interfaces/downloaded-software';
 import { Settings } from '../../interfaces/settings';
 import { NETWORKS } from '../../modules/launchpad/launchpad/helpers/create-keys';
 import { SoftwareService } from '../../services/available-versions/available-versions.service';
+import { ExpertModeService } from '../../services/expert-mode.service';
 import { ValidatorService } from '../../services/validator.service';
 import { coinbaseValidator } from '../../shared/eth-address-validator';
 import { GlobalState, GLOBAL_RX_STATE } from '../../shared/rx-state';
@@ -27,6 +28,7 @@ interface SettingsState {
   isSaving: boolean;
   isResettingValidator: boolean;
   downloadedVersions: DownloadedSoftware;
+  expertMode: boolean;
 }
 
 @Component({
@@ -39,6 +41,7 @@ export class SettingsComponent
   extends RxState<SettingsState>
   implements OnInit
 {
+  readonly expertMode$ = this.select('expertMode');
   readonly network$ = this.select('network');
   readonly settings$ = this.select('settings');
   readonly downloadedVersions$ = this.select('downloadedVersions');
@@ -54,13 +57,14 @@ export class SettingsComponent
   constructor(
     @Inject(GLOBAL_RX_STATE) private globalState: RxState<GlobalState>,
     private fb: FormBuilder,
+    private expertModeService: ExpertModeService,
     private softwareService: SoftwareService,
     private validatorService: ValidatorService
   ) {
     super();
 
     this.settingsForm = this.initForm(fb);
-
+    this.connect('expertMode', expertModeService.expertMode$);
     this.connect('network', this.globalState.select('network'));
     this.connect('settings', this.globalState.select('settings'));
     this.connect(
