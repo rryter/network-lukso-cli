@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { RxState } from '@rx-angular/state';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { Settings } from '../../interfaces/settings';
 import { NETWORKS } from '../../modules/launchpad/launchpad/helpers/create-keys';
 import { SoftwareService } from '../../services/available-versions/available-versions.service';
 import { PandoraMetricsService } from '../../services/pandora-metrics.service';
+import { SystemMetricsService } from '../../services/system-metrics.service';
 import { ValidatorMetricsService } from '../../services/validator-metrics.service';
 import { VanguardService } from '../../services/vanguard-metrics.service';
 import { DEFAULT_NETWORK } from '../../shared/config';
@@ -15,6 +15,10 @@ interface StatusState {
   settings: Settings;
   networkData: any;
   validatorMetrics: any;
+  systemMetrics: {
+    cpuSysload: number;
+    memUsed: number;
+  };
   pandoraMetrics: {
     lastBlock: number;
     peers: number;
@@ -45,6 +49,7 @@ export class StatusComponent extends RxState<StatusState> {
   readonly vanguardMetrics$ = this.select('vanguardMetrics');
   readonly validatorMetrics$ = this.select('validatorMetrics');
   readonly networkData$ = this.select('networkData');
+  readonly systemMetrics$ = this.select('systemMetrics');
 
   softwareService: SoftwareService;
   hasStopped = false;
@@ -55,7 +60,8 @@ export class StatusComponent extends RxState<StatusState> {
     softwareService: SoftwareService,
     vanguardService: VanguardService,
     validatorService: ValidatorMetricsService,
-    pandoraService: PandoraMetricsService
+    pandoraService: PandoraMetricsService,
+    systemMetricsService: SystemMetricsService
   ) {
     super();
 
@@ -69,6 +75,7 @@ export class StatusComponent extends RxState<StatusState> {
     this.connect('vanguardPeersOverTime', vanguardService.getPeersOverTime$());
     this.connect('vanguardMetrics', vanguardService.getMetrics$());
     this.connect('validatorMetrics', validatorService.getMetrics$());
+    this.connect('systemMetrics', systemMetricsService.getMetrics$());
 
     this.softwareService = softwareService;
   }

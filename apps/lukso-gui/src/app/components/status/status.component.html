@@ -41,11 +41,6 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col">
-    <div class="status-box">CPU (WIP)</div>
-  </div>
-  <div class="col">
-    <div class="status-box">MEMORY (WIP)</div>
-  </div>
-</div>
+<lukso-system-status
+  [metricsData]="systemMetrics$ | async"
+></lukso-system-status>

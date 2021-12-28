@@ -21,6 +21,7 @@ import {
   SetupComponent,
   StatusBoxComponent,
   StatusComponent,
+  SystemStatusComponent,
   ValidatorStatusComponent,
 } from './components';
 import { SharedModule } from './modules/shared/shared.module';
@@ -37,6 +38,7 @@ import { GlobalState, GLOBAL_RX_STATE } from './shared/rx-state';
     NetworkStatusComponent,
     StatusBoxComponent,
     SetupComponent,
+    SystemStatusComponent,
   ],
   imports: [
     AppRoutingModule,

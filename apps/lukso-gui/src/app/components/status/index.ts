@@ -3,3 +3,4 @@ export { NetworkStatusComponent } from './network-status/network-status.componen
 export { OrchestratorStatusComponent } from './orchestrator-status/orchestrator-status.component';
 export { StatusBoxComponent } from './status-box/status-box.component';
 export { ValidatorStatusComponent } from './validator-status/validator-status.component';
+export { SystemStatusComponent } from './system-status/system-status.component';
