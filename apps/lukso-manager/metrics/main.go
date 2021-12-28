@@ -19,6 +19,35 @@ type MetricsResponseData struct {
 	ValidatorsBalance int64 `json:"validatorsBalance"`
 }
 
+type CpuAndMemoryResponseData struct {
+	Sysload    int64 `json:"cpuSysload"`
+	MemoryUsed int64 `json:"memUsed"`
+}
+
+func CpuAndMemoryMetrics(w http.ResponseWriter, r *http.Request) {
+	body, err := getMetrics("http://127.0.0.1:6060/debug/metrics", w)
+	if err != nil {
+		return
+	}
+
+	var cpuAndMemorymetrics map[string]float64
+	json.Unmarshal(body, &cpuAndMemorymetrics)
+
+	var response CpuAndMemoryResponseData = CpuAndMemoryResponseData{
+		Sysload:    int64(cpuAndMemorymetrics["system/cpu/sysload"]),
+		MemoryUsed: int64(cpuAndMemorymetrics["system/memory/used"]),
+	}
+
+	jsonString, err := json.Marshal(response)
+	if err != nil {
+		fmt.Println(err)
+		shared.HandleError(err, w)
+		return
+	}
+
+	returnBody(jsonString, w)
+}
+
 func VanguardMetrics(w http.ResponseWriter, r *http.Request) {
 	body, metricsError := getMetrics("http://127.0.0.1:8080/metrics", w)
 	if metricsError != nil {

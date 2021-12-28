@@ -59,6 +59,7 @@ func main() {
 	app.Router.Methods("GET").Path("/").HandlerFunc(metrics.Health)
 	app.Router.Methods("GET").Path("/health").HandlerFunc(metrics.Health)
 
+	app.Router.Methods("GET").Path("/system/metrics").HandlerFunc(metrics.CpuAndMemoryMetrics)
 	app.Router.Methods("GET").Path("/vanguard/metrics").HandlerFunc(metrics.VanguardMetrics)
 	app.Router.Methods("GET").Path("/validator/metrics").HandlerFunc(metrics.ValidatorMetrics)
 	app.Router.Methods("GET").Path("/pandora/debug/metrics").HandlerFunc(metrics.PandoraMetrics)
